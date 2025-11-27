@@ -99,7 +99,10 @@ server <- function(input, output, session) {
   })
   
   output$plot_sleep_bmi <- renderPlot({
-    ggplot(filtered_data(), aes(x = bmi_category, y = sleep_duration, fill = bmi_category)) +
+    ggplot(filtered_data() %>% filter(!is.na(bmi_category)),
+           aes(x = bmi_category,
+               y = sleep_duration,
+               fill = bmi_category)) +
       geom_boxplot(alpha = 0.7) +
       labs(
         x = "BMI Category",
