@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Health Project — Sleep Health Dashboard</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #0b1220;
+      color: #e6e6e6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      font-size: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .card {
+      background: #111a2e;
+      border: 1px solid #1f2a44;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 14px 0;
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn.secondary {
+      background: #334155;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-top: 18px;
+    }
+
+    .footer {
+      margin-top: 34px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>Sleep Health & Lifestyle Dashboard</h1>
+    <p>
+      <strong>Course:</strong> Digital Health &nbsp; | &nbsp;
+      <strong>Author:</strong> Anika Tabassum Kashfia
+    </p>
+
+    <div class="card">
+      <h2>Project Overview</h2>
+      <p>
+        This project explores the relationship between lifestyle factors
+        (stress level, BMI category, physical activity, and daily steps)
+        and sleep outcomes (sleep duration and sleep quality) using the
+        <em>Sleep Health and Lifestyle</em> dataset from Kaggle.
+        The analysis is presented through an interactive R Shiny dashboard
+        that allows users to dynamically filter the data and explore
+        sleep-related patterns.
+      </p>
+
+      <div class="btns">
+        <a class="btn"
+           href="https://kashfiaanika.shinyapps.io/digitalhealth_sleep/"
+           target="_blank" rel="noopener">
+          Open Live Shiny App
+        </a>
+
+        <a class="btn secondary"
+           href="https://github.com/kashfiaanika/DigitalHealth-SleepHealth"
+           target="_blank" rel="noopener">
+          View GitHub Repository
+        </a>
+      </div>
+
+      <p class="note">
+        This page serves as the HTML deliverable for the Digital Health course
+        and provides direct access to the deployed Shiny dashboard and
+        project source code.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Dashboard Features</h2>
+      <ul>
+        <li>Interactive filters for age, BMI category, and sleep disorder</li>
+        <li>Sleep quality vs stress level visualization</li>
+        <li>Sleep duration comparison across BMI categories</li>
+        <li>Relationship between daily steps and sleep quality</li>
+        <li>Distribution of sleep duration across the population</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p>
+        Dataset source: Kaggle — Sleep Health and Lifestyle Dataset.
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>
