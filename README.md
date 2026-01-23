@@ -23,19 +23,19 @@ Hosted on shinyapps.io:
 
 ## Features
 
--   **Sleep Quality vs Stress Level** – visualize the relationship between stress and sleep quality\
--   **Sleep Duration by BMI Category** – compare how BMI affects sleep duration\
--   **Activity vs Sleep** – explore how daily steps relate to sleep quality\
--   **Sleep Duration Distribution** – histogram to view population sleep patterns\
+-   **Sleep Quality vs Stress Level** – visualize the relationship between stress and sleep quality
+-   **Sleep Duration by BMI Category** – compare how BMI affects sleep duration
+-   **Activity vs Sleep** – explore how daily steps relate to sleep quality
+-   **Sleep Duration Distribution** – histogram to view population sleep patterns
 -   **Data Filtering Controls** – filter by age, sleep disorder, and BMI category for targeted insights
 
 ------------------------------------------------------------------------
 
 ## Tech Stack
 
--   **R** (data cleaning, preprocessing)\
--   **Shiny** (interactive dashboard development)\
--   **tidyverse** (data wrangling and visualization)\
+-   **R** (data cleaning, preprocessing)
+-   **Shiny** (interactive dashboard development)
+-   **tidyverse** (data wrangling and visualization)
 -   **janitor** (data cleaning helpers)
 
 ------------------------------------------------------------------------
@@ -44,9 +44,13 @@ Hosted on shinyapps.io:
 
 <p align="left">
 
-<img src="./Showcase/stress-vs-sleep.png" alt="Sleep vs Stress" width="550"/><br> <em>Figure 1. Relationship between stress level and sleep quality.</em>
+<img src="./Showcase/stress-vs-sleep_scatter.png" alt="Sleep vs Stress" width="550"/><br> <em>Figure 1a. Sleep quality versus stress level, faceted by age group.</em>
 
 </p>
+
+<p align="left">
+
+<img src="./Showcase/stress-vs-sleep_box.png" alt="Sleep vs Stress" width="550"/><br> <em>Figure 1b. Boxplot of sleep quality by sleep disorder, faceted by age group.</em>
 
 <p align="left">
 

@@ -12,7 +12,18 @@ sleep <- read_csv("data/sleep_clean.csv") %>%
       bmi_category,
       levels = c("Normal", "Overweight", "Obese")
     ),
-    sleep_disorder = as.factor(sleep_disorder)
+    sleep_disorder = as.factor(sleep_disorder),
+    
+    
+    ### [PROF] Cluster data by age to avoid misleading comparisons
+    ### [NEW] Create explicit age groups (small multiples / faceting)
+    age_group = case_when(
+      age < 30 ~ "18–29",
+      age < 45 ~ "30–44",
+      age < 60 ~ "45–59",
+      TRUE     ~ "60+"
+    ),
+    age_group = factor(age_group, levels = c("18–29", "30–44", "45–59", "60+"))
   )
 
 
@@ -41,6 +52,29 @@ ui <- fluidPage(
                  tableOutput("table_filtered")),
         tabPanel("Sleep vs Stress",
                  h3("Sleep quality vs Stress level"),
+                 
+                 ### [PROF] Use a better idiom than a single scatterplot for discrete variables
+                 ### [NEW] Let user switch between (A) faceted scatter and (B) faceted boxplot
+                 radioButtons(
+                   "stress_viz_type",
+                   "Visualization type:",
+                   choices = c(
+                     "Scatter (Stress vs Sleep Quality)" = "scatter",
+                     "Boxplot (Sleep Quality by Sleep Disorder)" = "box"
+                   ),
+                   selected = "scatter",
+                   inline = TRUE
+                 ),
+                 
+                 ### [PROF] Cluster the data (e.g., by age) to prevent misleading interpretation
+                 ### [NEW] Default ON so sleep apnea doesn't mislead across ages
+                 checkboxInput(
+                   "facet_by_age",
+                   "Cluster by age group (recommended)",
+                   value = TRUE
+                 ),
+                 
+                 
                  plotOutput("plot_sleep_stress")),
         tabPanel("Sleep Duration by BMI",
                  plotOutput("plot_sleep_bmi")),
@@ -86,17 +120,71 @@ server <- function(input, output, session) {
     head(filtered_data(), 10)
   })
   
+  
+  
+  
   # Plot: Sleep quality vs Stress level
   output$plot_sleep_stress <- renderPlot({
-    ggplot(filtered_data(),
-           aes(x = stress_level, y = quality_of_sleep,
-               color = sleep_disorder)) +
+    df <- filtered_data()
+    
+    # If user selects boxplot: better idiom for discrete comparisons
+    if (input$stress_viz_type == "box") {
+      
+      p <- ggplot(
+        df,
+        aes(x = sleep_disorder, y = quality_of_sleep, fill = sleep_disorder)
+      ) +
+        geom_boxplot(alpha = 0.7, outlier.alpha = 0.35) +
+        labs(
+          title = "Sleep Quality by Sleep Disorder",
+          subtitle = if (isTRUE(input$facet_by_age)) {
+            "Clustered by age group to avoid misleading comparisons (sleep apnea is concentrated in older groups)."
+          } else {
+            "Distributions by sleep disorder (note: sleep apnea prevalence is age-dependent)."
+          },
+          x = "Sleep disorder",
+          y = "Quality of sleep (1–10)"
+        ) +
+        theme_minimal() +
+        theme(legend.position = "none")
+      
+      # Optional clustering by age
+      if (isTRUE(input$facet_by_age)) {
+        p <- p + facet_wrap(~ age_group)
+      }
+      
+      return(p)
+    }
+    
+    # Otherwise: scatterplot showing main relationship (stress vs sleep quality)
+    p <- ggplot(
+      df,
+      aes(x = stress_level, y = quality_of_sleep, color = sleep_disorder)
+    ) +
       geom_jitter(width = 0.1, height = 0.1, alpha = 0.7) +
-      labs(x = "Stress level (1–10)",
-           y = "Quality of sleep (1–10)",
-           color = "Sleep disorder") +
+      labs(
+        title = "Sleep Quality vs Stress Level",
+        subtitle = if (isTRUE(input$facet_by_age)) {
+          "Clustered by age group to prevent misleading interpretation (sleep apnea points are mostly older participants)."
+        } else {
+          "Overall view (note: patterns can differ by age group)."
+        },
+        x = "Stress level (1–10)",
+        y = "Quality of sleep (1–10)",
+        color = "Sleep disorder"
+      ) +
       theme_minimal()
+    
+    # Optional clustering by age
+    if (isTRUE(input$facet_by_age)) {
+      p <- p + facet_wrap(~ age_group)
+    }
+    
+    p
   })
+    
+    
+    
   
   output$plot_sleep_bmi <- renderPlot({
     ggplot(filtered_data() %>% filter(!is.na(bmi_category)),
